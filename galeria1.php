@@ -68,17 +68,21 @@
                                                                         <div class="col-sm-12 d-flex justify-content-center text-center">
                                                                             <p class="minText text-center"><?php echo substr($item['descripcion'], 0, 200) . '...' ?></p>
                                                                         </div>
-                                                                        <div class="col-sm-12 d-flex justify-content-center text-center">
-                                                                            <p class="precioProducto minText fw-bolder mb-2">$<?php echo $item['precio']; ?></p>
-                                                                        </div>
+                                                                        <?php if ($item['destacado'] == 'si') { ?>
+                                                                            <div class="col-sm-12 d-flex justify-content-center text-center">
+                                                                                <p class="precioProducto minText fw-bolder mb-2">$<?php echo $item['precio']; ?></p>
+                                                                            </div>
+                                                                        <?php } ?>
                                                                         <a href="https://wa.me/542216255399" target="_blank" class="btn3">Contactame</a>
-                                                                        <button id="botonMercadoPago" data-bs-toggle="modal" data-bs-target="#modalCompra" class="mt-2" data-producto="<?php echo $item['producto']; ?>" data-precio="<?php echo $item['precio']; ?>" data-imagen="<?php echo $item['imagen']; ?>">
-                                                                            <img class="mercadoPago me-1" src="./public/img/Buttons/mercadoPago.svg">
-                                                                            <span style="display: none;"><?php echo $item['producto']; ?></span>
-                                                                            <span style="display: none;"><?php echo $item['precio']; ?></span>
-                                                                            <span style="display: none;"><?php echo $item['imagen']; ?></span>
-                                                                            Comprar
-                                                                        </button>
+                                                                        <?php if ($item['destacado'] == 'si') { ?>
+                                                                            <button id="botonMercadoPago" data-bs-toggle="modal" data-bs-target="#modalCompra" class="mt-2" data-producto="<?php echo $item['producto']; ?>" data-precio="<?php echo $item['precio']; ?>" data-imagen="<?php echo $item['imagen']; ?>">
+                                                                                <img class="mercadoPago me-1" src="./public/img/Buttons/mercadoPago.svg">
+                                                                                <span style="display: none;"><?php echo $item['producto']; ?></span>
+                                                                                <span style="display: none;"><?php echo $item['precio']; ?></span>
+                                                                                <span style="display: none;"><?php echo $item['imagen']; ?></span>
+                                                                                Comprar
+                                                                            </button>
+                                                                        <?php } ?>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -93,6 +97,7 @@
                                         }
                                         ?>
                                     </div>
+
                                     <!-- Modal -->
                                     <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
                                         <div class="modal-dialog">
