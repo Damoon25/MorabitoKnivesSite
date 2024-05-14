@@ -529,6 +529,10 @@ a:hover {
     color: var(--color5) !important;
 }
 
+.form-check-label {
+    color: var(--color5) !important;
+}
+
 .fa-solid {
     font-size: x-large !important;
     color: var(--boton-color) !important;
