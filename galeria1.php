@@ -70,7 +70,15 @@
                                                                         </div>
                                                                         <?php if ($item['destacado'] == 'si') { ?>
                                                                             <div class="col-sm-12 d-flex justify-content-center text-center">
-                                                                                <p class="precioProducto minText fw-bolder mb-2">$<?php echo $item['precio']; ?></p>
+                                                                                <p class="precioProducto minText fw-bolder mb-2">
+                                                                                    <?php
+                                                                                    if (empty($item['precio'])) {
+                                                                                        echo "N/A";
+                                                                                    } else {
+                                                                                        echo "$ " . $item['precio'];
+                                                                                    }
+                                                                                    ?>
+                                                                                </p>
                                                                             </div>
                                                                         <?php } ?>
                                                                         <a href="https://wa.me/542216255399" target="_blank" class="btn3">Contactame</a>

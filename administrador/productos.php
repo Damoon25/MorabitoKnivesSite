@@ -16,6 +16,7 @@
         $tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : "";
         $descripcion = (isset($_POST['descripcion'])) ? $_POST['descripcion'] : "";
         $traduccion = (isset($_POST['traduccion'])) ? $_POST['traduccion'] : "";
+        $precio = (isset($_POST['precio'])) ? $_POST['precio'] : "";
         $destacado = (isset($_POST['destacado']) && $_POST['destacado'] == "on") ? "si" : "no";
         $imagen = (isset($_FILES['imagen']['name'])) ? $_FILES['imagen']['name'] : "";
         $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
@@ -69,6 +70,9 @@
                                         <label class="form-check-label" for="destacado">Destacar producto</label>
                                     </div>
                                 </div>
+                                <div class="form-group mb-4" id="precioContainer" style="display: <?php echo ($destacado == "si") ? "block" : "none"; ?>;">
+                                    <input type="text" required value="<?php echo $precio; ?>" class="form-control formText custom-input" id="precio" name="precio" placeholder="Precio del cuchillo..." pattern="\d*" title="Por favor, ingrese solo números.">
+                                </div>
                                 <div class="col-sm-12 d-flex justify-content-end">
                                     <div role="group" aria-label="">
                                         <button type="submit" class="btn btn-success rounded-pill" value="agregar" name="accion" <?php echo ($accion == "seleccionar") ? "disabled" : "" ?>>AGREGAR</button>
@@ -83,13 +87,14 @@
 
                                         case "agregar":
 
-                                            $sql = $conexion->prepare("INSERT INTO productos (destacado, tipo, producto ,imagen, descripcion, traducciones) 
-                                            VALUES (:destacado, :tipo, :producto ,:imagen ,:descripcion ,:traducciones );");
+                                            $sql = $conexion->prepare("INSERT INTO productos (destacado, tipo, producto ,imagen, descripcion, traducciones, precio) 
+                                            VALUES (:destacado, :tipo, :producto ,:imagen ,:descripcion ,:traducciones, :precio );");
                                             $sql->bindParam(':destacado', $destacado);
                                             $sql->bindParam(':tipo', $tipo);
                                             $sql->bindParam(':producto', $producto);
                                             $sql->bindParam(':descripcion', $descripcion);
                                             $sql->bindParam(':traducciones', $traduccion);
+                                            $sql->bindParam(':precio', $precio);
 
                                             $fechaImage = new DateTime();
                                             $nombreArchivo = ($imagen != "") ? $fechaImage->getTimestamp() . "_" . $_FILES["imagen"]["name"] : "imagen.jpg";
@@ -156,6 +161,7 @@
                                 <th>Destacado</th>
                                 <th>Nombre de Cuchillo</th>
                                 <th>Tipo</th>
+                                <th>Precio</th>
                                 <th>Descripción</th>
                                 <th>Imágen</th>
                                 <th>Acciones</th>
@@ -176,6 +182,15 @@
                                         <td><?php echo $producto['destacado'] ?></td>
                                         <td class="text-center"><?php echo $producto['producto'] ?></td>
                                         <td><?php echo $producto['tipo'] ?></td>
+                                        <td>
+                                            <?php
+                                            if (empty($producto['precio'])) {
+                                                echo "N/A";
+                                            } else {
+                                                echo "$ " . $producto['precio'];
+                                            }
+                                            ?>
+                                        </td>
                                         <td><?php echo substr($producto['descripcion'], 0, 100) . '...' ?></td>
                                         <td class="text-center">
                                             <img class="img-thumnail rounded-pill" src="../public/img/cards/<?php echo $producto['imagen'] ?>" width="50px" alt="" srcset="">
@@ -201,6 +216,41 @@
     <?php include("template/footer.php") ?>
 
 </body>
+<script>
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        // Permite solo números (0-9)
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    function validateInput(input) {
+        // Elimina cualquier carácter que no sea un dígito
+        input.value = input.value.replace(/[^0-9]/g, '');
+    }
+
+    document.getElementById('destacado').addEventListener('change', function() {
+        var precioContainer = document.getElementById('precioContainer');
+        if (this.checked) {
+            precioContainer.style.display = 'block';
+        } else {
+            precioContainer.style.display = 'none';
+        }
+    });
+
+    // Inicializar visibilidad en función del estado actual del checkbox
+    document.addEventListener('DOMContentLoaded', function() {
+        var precioContainer = document.getElementById('precioContainer');
+        var checkbox = document.getElementById('destacado');
+        if (checkbox.checked) {
+            precioContainer.style.display = 'block';
+        } else {
+            precioContainer.style.display = 'none';
+        }
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.2/dist/umd/popper.min.js" integrity="sha384-q9CRHqZndzlxGLOj+xrdLDJa9ittGte1NksRmgJKeCV9DrM7Kz868XYqsKWPpAmn" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

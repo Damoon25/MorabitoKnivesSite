@@ -18,10 +18,19 @@
                             <p class="lead">Elegí la opción deseada.</p>
                         </div>
                         <hr class="my-2">
-                        <div class="col sm 12">
-                            <p class="lead">
-                                <a class="btnAdmin btn m-3 ms-0" href="productos.php" role="button">ADMINISTRAR PRODUCTOS</a>
-                            </p>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="lead">
+                                        <a class="btnAdmin btn m-3 ms-0" href="productos.php" role="button">ADMINISTRAR PRODUCTOS</a>
+                                    </p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="lead">
+                                        <a class="btnAdmin btn m-3 ms-0" href="pagos.php" role="button">ADMINISTRACIÓN DE PAGOS</a>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
